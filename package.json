@@ -1,6 +1,6 @@
 {
   "name": "github-semantic-version",
-  "version": "7.6.0",
+  "version": "7.6.1",
   "description": "Automated semantic version releases powered by Github Issues.",
   "bin": {
     "github-semantic-version": "dist/cli.js",
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ericclemmons/github-semantic-version.git"
+    "url": "git+https://github.com/ZaiusInc/github-semantic-version.git"
   },
   "keywords": [
     "semver",

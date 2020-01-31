@@ -69,10 +69,13 @@ if (validEnvironment && hasRequiredFlags || cli.flags.init || cli.flags.check) {
   const version = new Version(versionOptions, cli.flags);
 
   if (cli.flags.init) {
+    console.log("Refreshing version...");
     version.refresh();
   } else if (cli.flags.check) {
+    console.log("Checkinging version...");
     version.check();
   } else {
+    console.log("Releasing version...");
     version.release();
   }
 } else if (validEnvironment && !hasRequiredFlags) {
