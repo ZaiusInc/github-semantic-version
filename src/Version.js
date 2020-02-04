@@ -98,7 +98,7 @@ export default class Version {
     const githubapi = this.getGithubAPI();
     const prDetails = await githubapi.getPullRequest(number);
 
-    prDetails.labels = await githubapi.getIssueLabels(number);
+    prDetails.labels = await githubapi.listLabelsOnIssue(number);
 
     if (prDetails.labels) {
       const increment = this.getIncrementFromIssueLabels(prDetails);
@@ -552,7 +552,7 @@ export default class Version {
     }
 
     const checkSpinner = ora("Checking for required labels").start();
-    const labels = await this.getGithubAPI().getIssueLabels(number);
+    const labels = await this.getGithubAPI().listLabelsOnIssue(number);
 
     if (!labels.length) {
       checkSpinner.fail();

@@ -49,7 +49,7 @@ export default class GithubAPI {
       });
   }
 
-  async getIssueLabels(issueNumber) {
+  async listLabelsOnIssue(issueNumber) {
     return this.github.issues
       .listLabelsOnIssue({ ...this.defaultOptions, issue_number: issueNumber })
       .then(({ data: issues }) => issues);
