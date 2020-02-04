@@ -24,6 +24,10 @@ export default class Utils {
     ;
   }
 
+  static isInTeamCity() {
+    return !!process.env.TEAMCITY_VERSION
+  }
+
   static getBranch() {
     const branch = (
       process.env.BRANCH
@@ -124,7 +128,7 @@ export default class Utils {
   }
 
   static getLatestTag() {
-    const tag = Utils.exec("git fetch --tags && git tag -l v*")
+    const tag = Utils.exec(`git fetch --tags && git tag -l v* --sort="v:refname"`)
       .filter(function(tag) {
         return tag.match(/^v(\d+)\.(\d+)\.(\d)/);
       })

@@ -38,7 +38,7 @@ if (cli.flags.publish && !process.env.NPM_TOKEN) {
   process.exit(1);
 }
 
-const validEnvironment = process.env.CI || cli.flags.force || cli.flags.dryRun;
+const validEnvironment = process.env.CI || cli.flags.force || cli.flags.dryRun || Utils.isInTeamCity();
 const hasRequiredFlags = cli.flags.bump || cli.flags.changelog;
 
 const packageOptions = Utils.getOptionsFromFile("./package.json");
