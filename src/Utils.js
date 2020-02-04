@@ -24,10 +24,6 @@ export default class Utils {
     ;
   }
 
-  static isInTeamCity() {
-    return !!process.env.TEAMCITY_VERSION
-  }
-
   static getBranch() {
     const branch = (
       process.env.BRANCH

@@ -1,6 +1,6 @@
 {
   "name": "@zaius/github-semantic-version",
-  "version": "7.6.5",
+  "version": "7.6.6",
   "description": "Automated semantic version releases powered by Github Issues.",
   "bin": {
     "@zaius/github-semantic-version": "dist/cli.js",
