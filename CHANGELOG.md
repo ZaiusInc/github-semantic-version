@@ -3,7 +3,11 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## 2018-03-12 - [7.6.0 - current version]
+## 2020-02-05 - [7.7.0 - current version]
+
+- 7.7.0 - Add new failOnMissingLabel option (@tmollerus-zaius)
+
+## 2018-03-12 - [7.6.0]
 
 - 7.6.0 - ([26](https://github.com/ericclemmons/github-semantic-version/pull/26)) - Add new released label process (@milesj)
 - 7.5.0 - ([27](https://github.com/ericclemmons/github-semantic-version/pull/27)) - Add new --check option + BuildKite support (@milesj)

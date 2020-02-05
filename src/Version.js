@@ -29,6 +29,7 @@ export default class Version {
       internalLabel: "No version: Internal",
       releasedLabel: "Released",
       abortOnMissingLabel: false,
+      failOnMissingLabel: false,
       addReleasedLabelOnSuccess: false,
       ...config,
     };
@@ -81,8 +82,13 @@ export default class Version {
       const commitSHA = Utils.getLastCommit();
       const commit = await this.getGithubAPI().getCommit(commitSHA);
 
-      if (this.config.abortOnMissingLabel) {
-        debug.warn(`Only commits found. Aborting release based on config.`);
+      if (this.config.failOnMissingLabel) {
+        // Exit the process with an error code since a label was required
+        // but wasn't supplied
+        debug.warn(`Only commits found. Failing release based on config.`);
+        processexit(9);
+      } else if (this.config.abortOnMissingLabel) {
+        debug.warn(`Only commits found. Skipping release based on config.`);
         commit.increment = Version.NO_INCREMENT;
       } else {
         debug.warn(`Only commits found. Defaulting to ${Version.INCREMENT_PATCH}.`);
@@ -114,8 +120,13 @@ export default class Version {
       }
     }
 
-    if (this.config.abortOnMissingLabel) {
-      debug.warn(`No labels found on PR #${number}. Aborting release based on config.`);
+    if (this.config.failOnMissingLabel) {
+      // Exit the process with an error code since a label was required
+      // but wasn't supplied
+      debug.warn(`No labels found on PR #${number}. Failing release based on config.`);
+      processexit(9);
+    } else if (this.config.abortOnMissingLabel) {
+      debug.warn(`No labels found on PR #${number}. Skipping release based on config.`);
       prDetails.increment = Version.NO_INCREMENT;
     } else {
       debug.warn(`No labels found on PR #${number}. Defaulting to ${Version.INCREMENT_PATCH}.`);

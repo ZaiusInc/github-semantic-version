@@ -219,12 +219,24 @@ which are options that will be passed to the [Github API](https://www.npmjs.com/
 
 #### abortOnMissingLabel
 
-By default, all PRs without a label will default to "patch". If you'd prefer to skip the PR instead of releasing, use the `abortOnMissingLabel` option.
+By default, all PRs without a label will default to "patch". If you'd prefer to skip the PR instead of releasing, set this option to `true`.
 
 ```json
 {
   "gsv": {
     "abortOnMissingLabel": true
+  }
+}
+```
+
+#### skipOnMissingLabel
+
+If set to `true`, a PR without a label specified will cause this program to exit with a failure code. Overrides the `abortOnMissingLabel` option.
+
+```json
+{
+  "gsv": {
+    "failOnMissingLabel": true
   }
 }
 ```
