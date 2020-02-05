@@ -1,13 +1,16 @@
 import Github from "@octokit/rest";
+import * as debug from "./debug";
 
 export default class GithubAPI {
   constructor(userRepo, apiOptions = {}) {
+    debug.info("Running GithubAPI constructor");
     this.defaultOptions = {
       owner: userRepo.user,
       repo: userRepo.repo,
     };
 
     this.github = new Github(apiOptions);
+    debug.info("Created Github API object");
 
     // this buys you 5000 requests an hour in all but the Search API, where you get 30 requests/min
     const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
@@ -17,10 +20,12 @@ export default class GithubAPI {
         token: token,
         type: "oauth"
       });
+      debug.info("Authenticated Github API object");
     }
   }
 
   async getCommit(hash) {
+    debug.info(`Getting commit ${hash} via Github API`);
     return this.github.repos
       .getCommit({ ...this.defaultOptions, sha: hash })
       .then(({ data: commit }) => {
@@ -36,6 +41,7 @@ export default class GithubAPI {
   }
 
   async getPullRequest(prNumber) {
+    debug.info(`Getting PR ${prNumber} via Github API`);
     return this.github.pullRequests
       .get({ ...this.defaultOptions, number: prNumber })
       .then(({ data: pr }) => {
@@ -50,12 +56,14 @@ export default class GithubAPI {
   }
 
   async listLabelsOnIssue(issueNumber) {
+    debug.info(`Getting labels on issue ${issueNumber} via Github API`);
     return this.github.issues
       .listLabelsOnIssue({ ...this.defaultOptions, issue_number: issueNumber })
       .then(({ data: issues }) => issues);
   }
 
   async addLabelToIssue(issueNumber, label) {
+    debug.info(`Adding label ${label} on issue ${issueNumber} via Github API`);
     return this.github.issues.addLabels({
       ...this.defaultOptions,
       number: issueNumber,
@@ -77,6 +85,7 @@ export default class GithubAPI {
   }
 
   async searchIssues(query) {
+    debug.info(`Searching issues via Github API`);
     // the search string takes the format: searchProperty1:searchValue1 [searchPropertyN:searchValueN]
     const q = this.formatSearchString(query);
     const allIssues = [];
@@ -103,6 +112,7 @@ export default class GithubAPI {
   }
 
   async getCommitsFromPullRequest(prNumber) {
+    debug.info(`Getting commits from PR ${prNumber} via Github API`);
     return this.github.pullRequests
       .getCommits({
         ...this.defaultOptions,
@@ -115,6 +125,7 @@ export default class GithubAPI {
   }
 
   async getCommitsFromRepo(query = {}) {
+    debug.info(`Getting commits from repo via Github API`);
     const allCommits = [];
     const concatAndPage = response => {
       response.data.forEach((commit) => {

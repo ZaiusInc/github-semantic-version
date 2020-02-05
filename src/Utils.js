@@ -24,6 +24,10 @@ export default class Utils {
     ;
   }
 
+  static isInTeamCity() {
+    return !!process.env.TEAMCITY_VERSION
+  }
+
   static getBranch() {
     const branch = (
       process.env.BRANCH
@@ -59,6 +63,7 @@ export default class Utils {
   }
 
   static getCommitRange() {
+    debug.info(`Running getCommitRange()`);
     return [
       Utils.getLatestTag() || Utils.getInitialCommit(),
       "HEAD"
@@ -66,6 +71,7 @@ export default class Utils {
   }
 
   static getInitialCommit() {
+    debug.info(`Running getInitialCommit()`);
     return Utils.exec("git log --format=%h --max-parents=0 HEAD")
       .filter(Boolean)
       .pop()
@@ -73,6 +79,7 @@ export default class Utils {
   }
 
   static getLastCommit() {
+    debug.info(`Running getLastCommit()`);
     return Utils.exec("git log -1 --format=%h HEAD")
       .filter(Boolean)
       .pop()
@@ -80,6 +87,7 @@ export default class Utils {
   }
 
   static getLastPullRequest() {
+    debug.info(`Running getLastPullRequest()`);
     const range = Utils.getCommitRange();
 
     // Merge commits
@@ -124,6 +132,7 @@ export default class Utils {
   }
 
   static getLatestTag() {
+    debug.info(`Running getLatestTag()`);
     const tag = Utils.exec(`git fetch --tags && git tag -l v* --sort="v:refname"`)
       .filter(function(tag) {
         return tag.match(/^v(\d+)\.(\d+)\.(\d)/);
@@ -141,6 +150,7 @@ export default class Utils {
   }
 
   static getUserRepo() {
+    debug.info(`Running getUserRepo()`);
     const [ user, repo ] = Utils.exec("git config --get remote.origin.url")
       .shift()
       .replace(".git", "")
@@ -155,6 +165,7 @@ export default class Utils {
   }
 
   static getChangeLogHeader() {
+    debug.info(`Running getChangeLogHeader()`);
     const headerLines = [];
 
     headerLines.push("# Change Log\n");
@@ -165,6 +176,7 @@ export default class Utils {
   }
 
   static getChangeLogLine(version, issue, increment = '') {
+    debug.info(`Running getChangeLogLine()`);
     const issueNumber = issue.number ? `[${issue.number}]` : `[${issue.sha.slice(0,7)}]`;
     const issueUrl = `(${issue.url})`;
     const title = `${issue.title ? issue.title : issue.message.replace(/\n/g, " ")}`;
@@ -175,6 +187,7 @@ export default class Utils {
   }
 
   static incrementVersion(increment, version) {
+    debug.info(`Running incrementVersion()`);
     const inc = increment || "patch";
 
     if (inc === 'none') {
@@ -185,10 +198,12 @@ export default class Utils {
   }
 
   static validVersionBump(oldVersion, newVersion) {
+    debug.info(`Running validVersionBump(${oldVersion}, ${newVersion})`);
     return semver.gte(newVersion, oldVersion);
   }
 
   static versionsInSync(oldVersion, newVersion) {
+    debug.info(`Running versionsInSync(${oldVersion}, ${newVersion})`);
     return semver.eq(newVersion, oldVersion);
   }
 

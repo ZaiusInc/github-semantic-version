@@ -20,6 +20,7 @@ export default class Version {
   static RELEASED = "released";
 
   constructor(config, options) {
+    debug.info(`Running Version constructor`);
     this.config = {
       github: {},
       majorLabel: "Version: Major",
@@ -73,6 +74,7 @@ export default class Version {
 
   // returns the PR or commit with the increment level attached
   async getLastChangeWithIncrement() {
+    debug.info(`Running getLastChangeWithIncrement()`);
     const pr = Utils.getLastPullRequest();
 
     if (!pr) {
@@ -95,6 +97,7 @@ export default class Version {
 
   // returns a pull request with increment level noted
   async getIncrementFromPullRequest(number) {
+    debug.info(`Running getIncrementFromPullRequest(${number})`);
     const githubapi = this.getGithubAPI();
     const prDetails = await githubapi.getPullRequest(number);
 
@@ -123,6 +126,7 @@ export default class Version {
   }
 
   async increment() {
+    debug.info(`Running increment()`);
     const spinner = ora("Getting last change and determining the current version").start();
     const lastChange = await this.getLastChangeWithIncrement();
 
@@ -213,6 +217,7 @@ export default class Version {
   }
 
   async publish() {
+    debug.info(`Running publish()`);
     if (this.config.private) {
       return debug.warn(`This package is marked private -- skipping NPM publish`);
     }
@@ -227,6 +232,7 @@ export default class Version {
   }
 
   async push() {
+    debug.info(`Running push()`);
     if (this.options.dryRun) {
       return debug.warn(`[DRY RUN] Pushing changes to master branch`);
     }
@@ -249,6 +255,7 @@ export default class Version {
   }
 
   async getPullRequestCommits(prs) {
+    debug.info(`Running getPullRequestCommits()`);
     const githubapi = this.getGithubAPI();
 
     const prCommits = prs.map(async (pr) => {
