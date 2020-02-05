@@ -58,7 +58,7 @@ export default class GithubAPI {
   async listLabelsOnIssue(issueNumber) {
     debug.info(`Getting labels on issue ${issueNumber} via Github API`);
     return this.github.issues
-      .listLabelsOnIssue({ ...this.defaultOptions, issue_number: issueNumber })
+      .listLabelsOnIssue({ ...this.defaultOptions, number: issueNumber })
       .then(({ data: issues }) => issues);
   }
 
