@@ -166,7 +166,7 @@ export default class Version {
     debug.info(`Bumping v${this.config.version} with ${lastChange.increment} release...`);
 
     // override the git user/email based on last commit
-    if (process.env.CI && !this.options.dryRun) {
+    if ((process.env.CI || cli.flags.force) && !this.options.dryRun) {
       const range = Utils.getCommitRange();
       const commit = Utils.exec(`git log -n1 --format='%an|%ae|%s' ${range}`).shift();
 
