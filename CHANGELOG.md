@@ -3,7 +3,11 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## 2020-03-12 - [7.8.1 - current version]
+## 2020-03-13 - [7.8.2 - current version]
+
+- 7.8.2 - Updated package.lock if necessary
+
+## 2020-03-12 - [7.8.1]
 
 - 7.8.1 - Fixed reference error (@tmollerus-zaius)
 - 7.8.0 - Allowed git username and email to be overridden with --force flag (@tmollerus-zaius)

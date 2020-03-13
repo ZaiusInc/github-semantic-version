@@ -161,6 +161,7 @@ export default class Version {
 
     const branch = Utils.getBranch();
     const newVersion = Utils.incrementVersion(lastChange.increment, this.config.version);
+    let package_lock;
 
     spinner.succeed();
     debug.info(`Bumping v${this.config.version} with ${lastChange.increment} release...`);
@@ -191,6 +192,10 @@ export default class Version {
     if (!this.options.dryRun) {
       const publishSpinner = ora(`Incrementing the version in package.json with ${lastChange.increment}`).start();
       Utils.exec(`npm version ${lastChange.increment} --no-git-tag-version`, { stdio: "ignore" });
+      package_lock = fs.readFileSync("package-lock.json", "utf8", (_err, data) => { return data });
+      if (package_lock) {
+        Utils.exec(`npm install --package-lock-only`, { stdio: "ignore" });
+      }
       publishSpinner.succeed();
     } else {
       debug.warn(`[DRY RUN] bumping package version with ${lastChange.increment}`);
@@ -199,6 +204,9 @@ export default class Version {
     if (this.shouldPush && !this.options.dryRun) {
       debug.info(`Adding package.json to commit list`);
       Utils.exec("git add package.json");
+      if (package_lock) {
+        Utils.exec("git add package-lock.json");
+      }
     }
 
     if (this.options.changelog) {
